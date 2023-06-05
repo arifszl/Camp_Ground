@@ -4,13 +4,23 @@ import  express from "express";
 import bodyParser  from "body-parser";
 import mongoose from "mongoose";
 import {Campground} from "./models/campground.js";
+import  methodOverride from "method-override";
+import engine from 'ejs-mate';
+
+
+
 import dotenv from "dotenv";
 /* config */
 dotenv.config();
 
+import motelRouter from "./routes/motel.js"
 
 const app=express();
+//use method override to use patch and delete request 
 
+app.engine('ejs',engine)
+
+app.use(methodOverride("_method"));
 
 
 
@@ -19,21 +29,10 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.set("view engine","ejs")
 
-
-app.get('/',(req,res)=>{
-    res.send("Working properly")
-})
+app.use(motelRouter)
 
 
-app.get("/campground", async (req,res)=>{
-    const camp =await new Campground({
-           title:'River view',
-           price:'12',
-           description:'Good',
-           location:'Delhi'
-    }).save();
-    console.log(camp)
-})
+
 
 
 

@@ -1,0 +1,12 @@
+<% layout('layout/boilerplate') -%>
+       <h2> <%=title%>  Motel</h2>
+       <h3>location:-</h3>
+       <h3><%=loc%></h3>
+<a href="/edit/<%=id%>"><button  id="mybtn" >Edit</button></a>
+
+<form action="/delete/<%=id%>?_method=DELETE" method="post">
+    <button type="submit">Delete</button>
+</form>
+
+
+

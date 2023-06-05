@@ -1,0 +1,16 @@
+<% layout('layout/boilerplate') -%>
+       <div>
+        <h3>All Motel</h3>
+       </div>
+        <% for(motel of motels){%>
+            <ul>
+                <li>  <a href="/show/<%=motel._id%>"> <%=motel.title%></a> </li>
+                <li><%=motel.location%></li>
+            </ul>
+        <%}%>
+
+
+
+
+</body>
+</html>
