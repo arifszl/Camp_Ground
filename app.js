@@ -14,6 +14,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import motelRouter from "./routes/motel.js"
+import reviewRouter from './routes/review.js'
 
 const app=express();
 //use method override to use patch and delete request 
@@ -30,6 +31,7 @@ app.use(express.static("public"));
 app.set("view engine","ejs")
 
 app.use(motelRouter)
+app.use(reviewRouter)
 
 
 
@@ -56,6 +58,10 @@ db.on("error",console.error.bind(console,"connection error:"));
 db.once("open",()=>{
     console.log("Database connected");
 })
+
+
+
+
 
 
 app.listen(3000,()=>{

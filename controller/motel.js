@@ -1,4 +1,5 @@
 import {Campground}  from '../models/campground.js'
+import {Review} from '../models/review.js'
 import bodyParser  from 'body-parser';
 export const homeController =async (req,res)=>{
     const motels=await Campground.find();
@@ -19,12 +20,9 @@ export const addMotelPostController=(req,res)=>{
 
 export const showController=async (req,res)=>{
     const id=req.params.id
-    const motel=await Campground.findById(id);
-    console.log(motel.title)
-    res.render('show',{title:motel.title,loc:motel.location,id:id});
-  
-    
-
+    const motel=await Campground.findById(id).populate('review');
+     
+   res.render('show',{motel,id});
 }
 
 export const editController= async (req,res)=>{
@@ -46,3 +44,4 @@ export const deleteController=async (req,res)=>{
      console.log(`Deleted motel with id ${id}`);
      res.redirect("/")
 }
+

@@ -18,4 +18,5 @@ Router.patch('/edit/:id',editPostController)
 Router.post('/addMotel',addMotelPostController)
 Router.delete("/delete/:id",deleteController)
 
+
 export default Router;
