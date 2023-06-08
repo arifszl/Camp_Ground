@@ -2,9 +2,57 @@
    
    
    <% layout('layout/boilerplate')  -%>
-    <form action="/edit/<%=id%>?_method=PATCH" method="POST">
-     <input type="text" name="title" id="" value="<%=title%>" />
-     <input type="text" name="loc" id="" value="<%=loc%>" />
+   
 
-     <button type="submit">Add</button>
-    </form>
+
+    
+<div class="row">
+    <h1 class="text-center">Edit Campground</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/edit/<%=motel._id%>?_method=PATCH" method="POST" novalidate class="validated-form"
+            enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="title"
+                    value="<%=motel.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>nd[
+                <input class="form-control" type="text" id="location" name="loc"
+                    value="<%=motel.location %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">Campground Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" name="price" value="<%=motel.price %>"
+                        required>\<div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="description"
+                    required><%= motel.description%></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+           
+            <div class="mb-3">
+                <button class="btn btn-info">Update Campground</button>
+            </div>
+        </form>
+       
+            </div>
+</div>

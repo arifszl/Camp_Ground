@@ -6,9 +6,14 @@ import mongoose from "mongoose";
 import {Campground} from "./models/campground.js";
 import  methodOverride from "method-override";
 import engine from 'ejs-mate';
+import CatchAsync from "./utils/CatchAsync.js";
+import ExpressError from "./utils/ExpressError.js";
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
 
+const __dirname = path.dirname(__filename);
 
-
+import path from "path";
 import dotenv from "dotenv";
 /* config */
 dotenv.config();
@@ -27,15 +32,18 @@ app.use(methodOverride("_method"));
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use('public',express.static(path.join(__dirname,'public')));
 app.set("view engine","ejs")
+app.set('views',path.join(__dirname,'views'))
 
 app.use(motelRouter)
 app.use(reviewRouter)
 
 
 
-
+// if I use prefix then i have to include it in my routers
+// app.use('/motel',motelRouter)
+// then i have to use '/motel/home', '/motel/edit'
 
 
 
@@ -60,6 +68,13 @@ db.once("open",()=>{
 })
 
 
+// app.all('*',(req,res,next)=>{
+//     next(new ExpressError('Page Not Found',404))
+// })
+
+// app.use((err,req,res,next)=>{
+//  res.send('something went wrong')
+// })
 
 
 
