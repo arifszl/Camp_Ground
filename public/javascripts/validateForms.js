@@ -1,3 +1,5 @@
+// This is immediately invoked function IIFI
+
 (function() {
           'use strict';
           window.addEventListener('load', function() {

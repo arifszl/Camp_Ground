@@ -1,14 +1,12 @@
-
 // import {} from 'dotenv/config'
-import  express from "express";
-import bodyParser  from "body-parser";
+import express from "express";
+import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import {Campground} from "./models/campground.js";
-import  methodOverride from "method-override";
-import engine from 'ejs-mate';
-import CatchAsync from "./utils/CatchAsync.js";
-import ExpressError from "./utils/ExpressError.js";
-import { fileURLToPath } from 'url';
+import Campground from "./models/campground.js";
+import methodOverride from "method-override";
+import engine from "ejs-mate";
+
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -18,55 +16,55 @@ import dotenv from "dotenv";
 /* config */
 dotenv.config();
 
-import motelRouter from "./routes/motel.js"
-import reviewRouter from './routes/review.js'
+import motelRouter from "./routes/motel.js";
+import reviewRouter from "./routes/review.js";
 
-const app=express();
-//use method override to use patch and delete request 
+const app = express();
+//use method override to use patch and delete request
 
-app.engine('ejs',engine)
+app.engine("ejs", engine);
 
 app.use(methodOverride("_method"));
 
-
-
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('public',express.static(path.join(__dirname,'public')));
-app.set("view engine","ejs")
-app.set('views',path.join(__dirname,'views'))
+app.use("public", express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-app.use(motelRouter)
-app.use(reviewRouter)
-
-
+app.use(motelRouter);
+app.use(reviewRouter);
 
 // if I use prefix then i have to include it in my routers
 // app.use('/motel',motelRouter)
 // then i have to use '/motel/home', '/motel/edit'
 
-
-
-
 // Server and data-base connection
 
-mongoose.connect(
-    process.env.MONGODB_URI, 
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-);
+// mongoose.connect(
+//     process.env.MONGODB_URI,
+//     {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     }
+// );
 
+// const db=mongoose.connection;
+// db.on("error",console.error.bind(console,"connection error:"));
+// db.once("open",()=>{
+//     console.log("Database connected");
+// })
 
-
-
-const db=mongoose.connection;
-db.on("error",console.error.bind(console,"connection error:"));
-db.once("open",()=>{
-    console.log("Database connected");
-})
-
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.listen(8000, () => {
+      console.log("server is live at port 8000");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // app.all('*',(req,res,next)=>{
 //     next(new ExpressError('Page Not Found',404))
@@ -76,9 +74,6 @@ db.once("open",()=>{
 //  res.send('something went wrong')
 // })
 
-
-
-
-app.listen(3000,()=>{
-    console.log("listening at 3000")
-})
+// app.listen(8000,()=>{
+//     console.log("listening at 8000")
+// })

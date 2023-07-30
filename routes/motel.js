@@ -1,7 +1,8 @@
 import  express from "express"
+import { homeController } from "../controller/motel.js"
 import {addMotelController,addMotelPostController,
     showController,editController,deleteController, 
-    editPostController,homeController} 
+    editPostController} 
     from "../controller/motel.js"
 // import * as motelController from "../controller/motel.js"
 
