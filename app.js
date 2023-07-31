@@ -5,12 +5,6 @@ import mongoose from "mongoose";
 import Campground from "./models/campground.js";
 import methodOverride from "method-override";
 import engine from "ejs-mate";
-
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
-
 import path from "path";
 import dotenv from "dotenv";
 /* config */
@@ -18,7 +12,13 @@ dotenv.config();
 
 import motelRouter from "./routes/motel.js";
 import reviewRouter from "./routes/review.js";
+import User from "./models/user.js";
+import { fileURLToPath } from "url";
+import passport from "passport";
+import LocalStrategy from "passport-local";
+const __filename = fileURLToPath(import.meta.url);
 
+const __dirname = path.dirname(__filename);
 const app = express();
 //use method override to use patch and delete request
 
@@ -34,6 +34,9 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(motelRouter);
 app.use(reviewRouter);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
 // if I use prefix then i have to include it in my routers
 // app.use('/motel',motelRouter)
