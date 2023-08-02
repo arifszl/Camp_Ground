@@ -1,7 +1,8 @@
 import { Review } from "../models/review.js";
 import Campground from "../models/campground.js";
-import CatchAsync from "../utils/CatchAsync.js";
+
 import ExpressError from "../utils/ExpressError.js";
+import CatchAsync from "../utils/CatchAsync.js";
 
 export const homeController = async (req, res) => {
   const motels = await Campground.find({});
@@ -12,18 +13,21 @@ export const addMotelController = (req, res) => {
   res.render("addMotel");
 };
 
-export const addMotelPostController = async (req, res) => {
-  const { name, price, description, location } = req.body;
+export const addMotelPostController = async (req, res, next) => {
+  try {
+    const { name, price, description, location } = req.body;
 
-  console.log(image);
-  console.log(name);
-  const motel = await new Campground({
-    title: name,
-    price: price,
-    description: description,
-    location: location,
-  }).save();
-  res.redirect("/");
+    const motel = await new Campground({
+      title: name,
+      price: price,
+      description: description,
+      location: location,
+    }).save();
+    req.flash("success", " Successfully Created Farm");
+    res.redirect("/");
+  } catch (e) {
+    next(e);
+  }
 };
 
 export const showController = async (req, res) => {

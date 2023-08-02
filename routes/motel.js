@@ -1,23 +1,25 @@
-import  express from "express"
-import { homeController } from "../controller/motel.js"
-import {addMotelController,addMotelPostController,
-    showController,editController,deleteController, 
-    editPostController} 
-    from "../controller/motel.js"
+import express from "express";
+import { homeController } from "../controller/motel.js";
+import {
+  addMotelController,
+  addMotelPostController,
+  showController,
+  editController,
+  deleteController,
+  editPostController,
+} from "../controller/motel.js";
 // import * as motelController from "../controller/motel.js"
 
-let Router = express.Router()
+let Router = express.Router();
 
-Router.get("/",homeController)
-Router.get("/addMotel",addMotelController)
-Router.get('/show/:id',showController)
-Router.get('/edit/:id',editController)
-
+Router.get("/", homeController);
+Router.get("/addMotel", addMotelController);
+Router.get("/show/:id", showController);
+Router.get("/edit/:id", editController);
 
 // import methodOverride from "method-override"; in app.js file
-Router.patch('/edit/:id',editPostController)
-Router.post('/addMotel',addMotelPostController)
-Router.delete("/delete/:id",deleteController)
-
+Router.patch("/edit/:id", editPostController);
+Router.post("/addMotel", addMotelPostController);
+Router.delete("/delete/:id", deleteController);
 
 export default Router;
