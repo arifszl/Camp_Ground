@@ -1,22 +1,28 @@
 import express from "express";
 import User from "../models/user.js";
+import passport from "passport";
+import {
+  getRegisterController,
+  postRegisterController,
+  getLogin,
+  postLogin,
+  getLogout,
+} from "../controller/user.js";
 
 const Router = express.Router();
 
-Router.get("/register", (req, res) => {
-  res.render("register");
-});
+Router.get("/register", getRegisterController);
+Router.get("/login", getLogin);
 
-Router.post("/register", async (req, res, next) => {
-  try {
-    const { email, username, password } = req.body;
-    const user = new User({ email: email, username: username });
-    const registerdUser = await User.register(user, password);
-    console.log(registerdUser);
-    res.redirect("/");
-  } catch (e) {
-    next(e);
-  }
-});
-
+Router.post("/register", postRegisterController);
+Router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureFlash: true,
+    failureRedirect: "/login",
+    keepSessionInfo: true,
+  }),
+  postLogin,
+);
+Router.get("/logout", getLogout);
 export default Router;

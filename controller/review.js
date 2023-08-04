@@ -9,6 +9,7 @@ export const reviewController = async (req, res) => {
   const campground = await Campground.findById(campId);
   const review = new Review({ body: body, rating: rating });
   campground.review.push(review);
+  review.author = req.user._id;
   await review.save();
   await campground.save();
   res.redirect(`/show/${campId}`);

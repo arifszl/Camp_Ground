@@ -53,21 +53,23 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
-  //   res.send("hello");
-  console.log(res.locals.success);
+  res.locals.error = req.flash("error");
+
   next();
 });
 
 app.use(motelRouter);
 app.use(reviewRouter);
 app.use(userRouter);
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // if I use prefix then i have to include it in my routers
 // app.use('/motel',motelRouter)
@@ -98,9 +100,9 @@ mongoose
 //   next(new ExpressError("Page Not Found", 404));
 // });
 
-app.use((err, req, res, next) => {
-  res.render("error", { err });
-});
+// app.use((err, req, res, next) => {
+//   res.render("error", { err });
+// });
 
 // app.listen(8000,()=>{
 //     console.log("listening at 8000")

@@ -22,7 +22,9 @@ export const addMotelPostController = async (req, res, next) => {
       price: price,
       description: description,
       location: location,
-    }).save();
+    });
+    motel.author = req.user._id;
+    motel.save();
     req.flash("success", " Successfully Created Farm");
     res.redirect("/");
   } catch (e) {
@@ -32,20 +34,31 @@ export const addMotelPostController = async (req, res, next) => {
 
 export const showController = async (req, res) => {
   const id = req.params.id;
-  const motel = await Campground.findById(id).populate("review");
-
+  const motel = await Campground.findById(id)
+    .populate({
+      path: "review",
+      populate: {
+        path: "author",
+      },
+    })
+    .populate("author");
+  console.log(motel);
   res.render("show", { motel, id });
 };
 
 export const editController = async (req, res) => {
   const id = req.params.id;
-  const motel = await Campground.findById(id);
 
+  const motel = await Campground.findById(id);
+  if (!motel) {
+    return res.send("motel not found");
+  }
   res.render("edit", { motel });
 };
 
 export const editPostController = async (req, res) => {
   const id = req.params.id;
+
   const { name, location, price, description } = req.body;
   const motel = await Campground.findByIdAndUpdate(id, {
     title: name,
